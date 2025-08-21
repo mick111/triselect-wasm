@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="0; url=triselect.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirection vers TriSelect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f5f5f5;
+        }
+
+        .redirect-message {
+            color: #666;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="redirect-message">
+        <p>Redirection en cours vers TriSelect...</p>
+        <p>Si vous n'êtes pas redirigé automatiquement, <a href="triselect.html">cliquez ici</a>.</p>
+    </div>
+
+    <script>
+        // Redirection JavaScript en cas d'échec de la meta redirection
+        window.location.href = "triselect.html";
+    </script>
+</body>
+
+</html>
