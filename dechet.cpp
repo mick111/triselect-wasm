@@ -77,7 +77,7 @@ Dechet::Dechet(const Type type, Triselect &triselect)
 {
     pixmapItem.setPixmap(QPixmap(typeToImage.value(type)));
     pixmapItem.setTransformationMode(Qt::TransformationMode::SmoothTransformation);
-    pixmapItem.setScale(0.1);
+    pixmapItem.setScale(0.2);
     textItem.setPlainText(this->nom);
     textItem.setPos(pixmapItem.boundingRect().width() * pixmapItem.scale() / 2 - textItem.boundingRect().width() / 2,
                     pixmapItem.boundingRect().height() * pixmapItem.scale() + 5);
@@ -137,7 +137,7 @@ void Dechet::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         poubelle.setSelected(false);
     }
     textItem.hide();
-    fondBlanc.show();
+    fondBlanc.hide();
     QGraphicsItemGroup::mouseReleaseEvent(event);
 }
 
