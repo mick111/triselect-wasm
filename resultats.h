@@ -20,9 +20,11 @@ public:
     void ajouteDechet(const Dechet &dechet);
     void setPoints(int points, int total);
     QLabel *label;
+    void envoie(QString nom);
 
 private:
     Ui::Resultats *ui;
+    int points;
 };
 
 #endif // RESULTATS_H

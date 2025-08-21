@@ -47,12 +47,13 @@ Triselect::~Triselect()
 void Triselect::affiche_resultat(size_t points)
 {
     static auto dialog = Resultats(this, dechets);
-    dialog.setWindowTitle(QString("C'est terminé, <b>%1</b>").arg(joueur));
+    dialog.setWindowTitle(QString("C'est terminé, %1").arg(joueur));
     dialog.setPoints(points, dechets.size());
     for (Dechet &dechet : dechets)
     {
         dialog.ajouteDechet(dechet);
     }
+    dialog.envoie(joueur);
     dialog.open();
 }
 

@@ -14,6 +14,8 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
 set(TS_FILES)
 
+
+
 set(PROJECT_SOURCES
         main.cpp
         triselect.cpp
@@ -29,6 +31,8 @@ set(PROJECT_SOURCES
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     find_package(Qt6 REQUIRED COMPONENTS Core)
+    find_package(Qt6 REQUIRED COMPONENTS Network)
+    find_package(Qt6 REQUIRED COMPONENTS Core)
 
     qt_add_executable(triselect
         MANUAL_FINALIZATION
@@ -39,6 +43,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         utils.h utils.cpp
         resultats.h resultats.cpp resultats.ui
         welcomedialog.h welcomedialog.cpp welcomedialog.ui
+        FormSubmitter.h FormSubmitter.cpp
+        EmscriptenFormSubmitter.h EmscriptenFormSubmitter.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET triselect APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -62,8 +68,9 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(triselect PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(triselect PRIVATE Qt6::Widgets)
 target_link_libraries(triselect PRIVATE Qt6::Core)
+target_link_libraries(triselect PRIVATE Qt6::Network)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -88,4 +95,9 @@ install(TARGETS triselect
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(triselect)
+endif()
+
+if(EMSCRIPTEN)
+# Enable fetch API
+target_compile_definitions(triselect PRIVATE __EMSCRIPTEN__)
 endif()
