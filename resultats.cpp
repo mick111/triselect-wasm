@@ -38,9 +38,9 @@ void Resultats::ajouteDechet(const Dechet &dechet)
     image->setFixedSize(16, 16);
     auto poubelle = dechet.poubelle_choisie;
     auto string = QString("<b>%1</b> a été déposé%4 dans <b>%2</b>. %3")
-                      .arg(dechet.nom(dechet.type), poubelle->nom(poubelle->type))
+                      .arg(dechet.nom, poubelle->nom(poubelle->type))
                       .arg(dechet.est_valide() ? "Correct !" : "Incorrect !")
-                      .arg(dechet.feminin() ? "e" : "");
+                      .arg(dechet.feminin ? "e" : "");
     QLabel *text = new QLabel(string, this);
     ui->formLayout->addRow(image, text);
 }

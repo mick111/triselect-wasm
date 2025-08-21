@@ -13,24 +13,45 @@ Triselect::Triselect(QWidget *parent)
     gv->setRenderHint(QPainter::RenderHint::Antialiasing);
     scene.setSceneRect(0, 0, 800, 800);
     gv->setScene(&scene);
-    poubelles.emplace(poubelles.end(), Poubelle::Type::TOUT_VENANT);
+    poubelles.emplace(poubelles.end(), Poubelle::Type::ORDURES);
     poubelles.emplace(poubelles.end(), Poubelle::Type::ORGANIQUES);
     poubelles.emplace(poubelles.end(), Poubelle::Type::RECYCLABLES);
     poubelles.emplace(poubelles.end(), Poubelle::Type::VERRE);
     for (Poubelle &poubelle : poubelles)
     {
         scene.addItem(&poubelle);
-        poubelle.setPos(poubelle.type * 150 + 100, 350);
+        QSizeF size = poubelle.sceneBoundingRect().size();
+        qreal x = poubelle.type * 150 + 100 - size.width() / 2;
+        qreal y = 450 - size.height() / 2;
+        poubelle.setPos(x, y);
     }
 
+    dechets.emplace(dechets.end(), Dechet::Type::ALIMENTAIRE, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::BOCAL, *this);
     dechets.emplace(dechets.end(), Dechet::Type::BOUTEILLE_VERRE, *this);
     dechets.emplace(dechets.end(), Dechet::Type::CANETTE, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::TROGNON, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::SACHET, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::COUVERTS_BOIS, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::COUVERTS_PLASTIQUE, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::DOSETTE, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::EPLUCHURES, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::GOBELET, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::MARC_CAFE, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::MASQUE, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::MOUCHOIR, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::POSTIT, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::RESTES_REPAS, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::SACHET_PLASTIQUE, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::SACHET_THE, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::STYLO, *this);
+    dechets.emplace(dechets.end(), Dechet::Type::YAOURT, *this);
     for (Dechet &dechet : dechets)
     {
         scene.addItem(&dechet);
-        dechet.setPos(dechet.type * 150 + 100, 150);
+        // On centre l'image du déchet à la position souhaitée
+        QSizeF size = dechet.sceneBoundingRect().size();
+        qreal x = dechet.position * 150 + 100 - size.width() / 2;
+        qreal y = 150 - size.height() / 2;
+        dechet.setPos(x, y);
     }
 
     scene.addItem(&ok);

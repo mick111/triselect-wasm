@@ -23,8 +23,8 @@ QString Poubelle::nom(const Type type) const
 {
     switch (type)
     {
-    case TOUT_VENANT:
-        return "Tout venant";
+    case ORDURES:
+        return "Ordures ménagères";
     case ORGANIQUES:
         return "Organiques";
     case RECYCLABLES:

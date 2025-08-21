@@ -7,12 +7,12 @@
 #include <QObject>
 #include <QWidget>
 
-class Poubelle : public QGraphicsItemGroup // QGraphicsPixmapItem
+class Poubelle : public QGraphicsItemGroup
 {
 public:
     enum Type : size_t
     {
-        TOUT_VENANT,
+        ORDURES,
         ORGANIQUES,
         RECYCLABLES,
         VERRE

@@ -1,10 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/dechet_0.png</file>
-        <file>images/dechet_00.png</file>
-        <file>images/dechet_1.png</file>
-        <file>images/dechet_2.png</file>
-        <file>images/dechet_3.png</file>
         <file>images/poubelle_0.png</file>
         <file>images/poubelle_1.png</file>
         <file>images/poubelle_2.png</file>
@@ -14,5 +9,23 @@
         <file>images/icones/croix_rouge.png</file>
         <file>images/icones/croix16.png</file>
         <file>images/icones/coche16.png</file>
+        <file>images/dechets/alimentaire.png</file>
+        <file>images/dechets/bocal.png</file>
+        <file>images/dechets/bouteille_verre.png</file>
+        <file>images/dechets/canette.png</file>
+        <file>images/dechets/couverts_bois.png</file>
+        <file>images/dechets/couverts_plastique.png</file>
+        <file>images/dechets/dosette.png</file>
+        <file>images/dechets/epluchures.png</file>
+        <file>images/dechets/gobelet.png</file>
+        <file>images/dechets/marc_cafe.png</file>
+        <file>images/dechets/masque.png</file>
+        <file>images/dechets/mouchoir.png</file>
+        <file>images/dechets/postit.png</file>
+        <file>images/dechets/restes_repas.png</file>
+        <file>images/dechets/sachet_plastique.png</file>
+        <file>images/dechets/sachet_the.png</file>
+        <file>images/dechets/stylo.png</file>
+        <file>images/dechets/yaourt.png</file>
     </qresource>
 </RCC>
