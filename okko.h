@@ -15,6 +15,7 @@ public:
     void start();
 private:
     QPropertyAnimation anim;
+    const bool isOk;
 };
 
 #endif // OKKO_H

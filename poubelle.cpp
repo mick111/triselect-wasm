@@ -12,7 +12,8 @@ Poubelle::Poubelle(const QString &filename, const Type type) : QGraphicsItemGrou
     textItem->setPos(pixmapItem.boundingRect().width() * pixmapItem.scale() / 2 - textItem->boundingRect().width() / 2,
                      pixmapItem.boundingRect().height() * pixmapItem.scale() + 5);
 
-    this->setFlag(GraphicsItemFlag::ItemIsSelectable);
+    setFlag(GraphicsItemFlag::ItemIsSelectable);
+    pixmapItem.setFlag(GraphicsItemFlag::ItemIsSelectable);
 }
 
 Poubelle::Poubelle(const Type type) : Poubelle(QString(":/images/poubelle_%1.png").arg(type), type)

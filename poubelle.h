@@ -29,6 +29,12 @@ public:
             pixmapItem.pixmap().size() * pixmapItem.scale());
     }
 
+    void setSelected(bool selected)
+    {
+        QGraphicsItemGroup::setSelected(selected);
+        pixmapItem.setSelected(selected);
+    }
+
 protected:
     QGraphicsPixmapItem pixmapItem;
 };

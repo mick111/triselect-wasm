@@ -1,7 +1,7 @@
 #include "okko.h"
 
 Okko::Okko(QObject *parent, bool isOk)
-    : QObject(parent), QGraphicsPixmapItem(), anim(this, "opacity", this)
+    : QObject(parent), QGraphicsPixmapItem(), anim(this, "opacity", this), isOk(isOk)
 {
     auto filename = QString(isOk ? ":/images/icones/coche_verte.png" : ":/images/icones/croix_rouge.png");
     this->setPixmap(QPixmap(filename));
@@ -17,5 +17,6 @@ Okko::Okko(QObject *parent, bool isOk)
 
 void Okko::start()
 {
+    qDebug()<< "start" << isOk;
     anim.start();
 }

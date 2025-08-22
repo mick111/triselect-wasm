@@ -63,7 +63,7 @@ protected:
     QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
     QGraphicsPixmapItem pixmapItem;
     QGraphicsTextItem textItem;
-    QGraphicsRectItem fondBlanc;
+    QGraphicsPathItem fondBlanc;
 
 private:
     Triselect &triselect;

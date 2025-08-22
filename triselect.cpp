@@ -5,6 +5,7 @@
 #include <QLabel>
 #include "resultats.h"
 #include <QRandomGenerator>
+#include <time.h>
 
 Triselect::Triselect(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::Triselect), scene(this), joueur("Alice"), ok(this, true), ko(this, false)
@@ -27,7 +28,7 @@ Triselect::Triselect(QWidget *parent)
         poubelle.setPos(x, y);
     }
 
-
+    srand(time(NULL));
     dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::ALIMENTAIRE, *this);
     dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::BOCAL, *this);
     dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::BOUTEILLE_VERRE, *this);

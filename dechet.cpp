@@ -82,9 +82,11 @@ Dechet::Dechet(const Type type, Triselect &triselect)
     textItem.setPos(pixmapItem.boundingRect().width() * pixmapItem.scale() / 2 - textItem.boundingRect().width() / 2,
                     pixmapItem.boundingRect().height() * pixmapItem.scale() + 5);
     // Creer un fond blanc
+    auto path = QPainterPath();
+    path.addRoundedRect(textItem.boundingRect(), 4, 4);
     fondBlanc.setBrush(Qt::white);
     fondBlanc.setZValue(-1); // Placer le fond blanc derrière le texte
-    fondBlanc.setRect(textItem.boundingRect());
+    fondBlanc.setPath(path);
     fondBlanc.setPos(textItem.pos());
     hide();
     setFlag(GraphicsItemFlag::ItemIsMovable);
@@ -103,7 +105,7 @@ bool Dechet::est_valide() const
 bool Dechet::touche(const Poubelle &poubelle) const
 {
     return poubelle.imageSceneBoundingRect().intersects(
-        halfRect(imageSceneBoundingRect()));
+        halfRect(halfRect(imageSceneBoundingRect())));
 }
 
 void Dechet::mousePressEvent(QGraphicsSceneMouseEvent *event)
