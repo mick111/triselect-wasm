@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include "resultats.h"
+#include <QRandomGenerator>
 
 Triselect::Triselect(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::Triselect), scene(this), joueur("Alice"), ok(this, true), ko(this, false)
@@ -26,24 +27,26 @@ Triselect::Triselect(QWidget *parent)
         poubelle.setPos(x, y);
     }
 
-    dechets.emplace(dechets.end(), Dechet::Type::ALIMENTAIRE, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::BOCAL, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::BOUTEILLE_VERRE, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::CANETTE, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::COUVERTS_BOIS, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::COUVERTS_PLASTIQUE, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::DOSETTE, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::EPLUCHURES, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::GOBELET, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::MARC_CAFE, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::MASQUE, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::MOUCHOIR, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::POSTIT, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::RESTES_REPAS, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::SACHET_PLASTIQUE, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::SACHET_THE, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::STYLO, *this);
-    dechets.emplace(dechets.end(), Dechet::Type::YAOURT, *this);
+
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::ALIMENTAIRE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::BOCAL, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::BOUTEILLE_VERRE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::CANETTE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::COUVERTS_BOIS, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::COUVERTS_PLASTIQUE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::DOSETTE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::EPLUCHURES, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::GOBELET, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::MARC_CAFE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::MASQUE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::MOUCHOIR, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::POSTIT, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::RESTES_REPAS, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::SACHET_PLASTIQUE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::SACHET_THE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::STYLO, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::YAOURT, *this);
+
     for (Dechet &dechet : dechets)
     {
         scene.addItem(&dechet);
