@@ -86,9 +86,7 @@ Dechet::Dechet(const Type type, Triselect &triselect)
     fondBlanc.setZValue(-1); // Placer le fond blanc derrière le texte
     fondBlanc.setRect(textItem.boundingRect());
     fondBlanc.setPos(textItem.pos());
-    textItem.hide();
-    fondBlanc.hide();
-
+    hide();
     setFlag(GraphicsItemFlag::ItemIsMovable);
     setFlag(GraphicsItemFlag::ItemSendsScenePositionChanges);
 }
@@ -112,15 +110,11 @@ void Dechet::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     // setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
     QGraphicsItemGroup::mousePressEvent(event);
-    textItem.show();
-    fondBlanc.show();
 }
 
 void Dechet::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItemGroup::mouseMoveEvent(event);
-    textItem.show();
-    fondBlanc.show();
 }
 
 void Dechet::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
@@ -130,14 +124,11 @@ void Dechet::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         if (touche(poubelle))
         {
             QPointF pos = event->scenePos();
-            hide();
             poubelle_choisie = &poubelle;
             triselect.dechet_jete(*this, pos);
         }
         poubelle.setSelected(false);
     }
-    textItem.hide();
-    fondBlanc.hide();
     QGraphicsItemGroup::mouseReleaseEvent(event);
 }
 

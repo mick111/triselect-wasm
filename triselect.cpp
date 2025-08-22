@@ -20,9 +20,9 @@ Triselect::Triselect(QWidget *parent)
     for (Poubelle &poubelle : poubelles)
     {
         scene.addItem(&poubelle);
-        QSizeF size = poubelle.sceneBoundingRect().size();
-        qreal x = poubelle.type * 150 + 100 - size.width() / 2;
-        qreal y = 450 - size.height() / 2;
+        QSizeF size = poubelle.imageSceneBoundingRect().size();
+        qreal x = 400 - size.width() / 2 + (poubelle.type * 150) - 300 + 75;
+        qreal y = 350;
         poubelle.setPos(x, y);
     }
 
@@ -48,11 +48,13 @@ Triselect::Triselect(QWidget *parent)
     {
         scene.addItem(&dechet);
         // On centre l'image du déchet à la position souhaitée
-        QSizeF size = dechet.sceneBoundingRect().size();
-        qreal x = dechet.position * 150 + 100 - size.width() / 2;
+        QSizeF size = dechet.imageSceneBoundingRect().size();
+        qDebug() << size.width() << size.height() << size;
+        qreal x = 400 - size.width() / 2;
         qreal y = 150 - size.height() / 2;
         dechet.setPos(x, y);
     }
+    dechets.front().show();
 
     scene.addItem(&ok);
     scene.addItem(&ko);
@@ -101,6 +103,7 @@ std::tuple<size_t, bool> Triselect::points()
 
 void Triselect::dechet_jete(Dechet &dechet, QPointF pos)
 {
+    dechet.hide();
     const auto [pts, termine] = points();
     if (termine)
     {
@@ -111,6 +114,15 @@ void Triselect::dechet_jete(Dechet &dechet, QPointF pos)
     pos -= QPointF(size.width() / 2, size.height() / 2);
     okko.setPos(pos);
     okko.start();
+    // Trouve le premier dechet masqué, et affiche
+    for (Dechet &d : dechets)
+    {
+        if (d.poubelle_choisie == nullptr)
+        {
+            d.show();
+            break;
+        }
+    }
 }
 
 void Triselect::setJoueur(const QString &joueur)
