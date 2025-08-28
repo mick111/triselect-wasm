@@ -11,7 +11,7 @@ const QMap<Dechet::Type, Poubelle::Type> Dechet::typeToPoubelle{
     {Dechet::Type::CANETTE, Poubelle::Type::RECYCLABLES},
     {Dechet::Type::COUVERTS_BOIS, Poubelle::Type::ORDURES},
     {Dechet::Type::COUVERTS_PLASTIQUE, Poubelle::Type::RECYCLABLES},
-    {Dechet::Type::DOSETTE, Poubelle::Type::RECYCLABLES},
+    {Dechet::Type::DOSETTE, Poubelle::Type::ORDURES},
     {Dechet::Type::EPLUCHURES, Poubelle::Type::ORGANIQUES},
     {Dechet::Type::GOBELET, Poubelle::Type::RECYCLABLES},
     {Dechet::Type::MARC_CAFE, Poubelle::Type::ORGANIQUES},
@@ -20,7 +20,7 @@ const QMap<Dechet::Type, Poubelle::Type> Dechet::typeToPoubelle{
     {Dechet::Type::POSTIT, Poubelle::Type::RECYCLABLES},
     {Dechet::Type::RESTES_REPAS, Poubelle::Type::ORGANIQUES},
     {Dechet::Type::SACHET_PLASTIQUE, Poubelle::Type::ORDURES},
-    {Dechet::Type::SACHET_THE, Poubelle::Type::RECYCLABLES},
+    {Dechet::Type::SACHET_THE, Poubelle::Type::ORDURES},
     {Dechet::Type::STYLO, Poubelle::Type::ORDURES},
     {Dechet::Type::YAOURT, Poubelle::Type::RECYCLABLES}};
 
@@ -31,7 +31,7 @@ const QMap<Dechet::Type, QString> Dechet::typeToNom{
     {Dechet::Type::CANETTE, "Canette"},
     {Dechet::Type::COUVERTS_BOIS, "Couverts en bois"},
     {Dechet::Type::COUVERTS_PLASTIQUE, "Couverts en plastique"},
-    {Dechet::Type::DOSETTE, "Dosette"},
+    {Dechet::Type::DOSETTE, "Capsule de café Dolce Gusto"},
     {Dechet::Type::EPLUCHURES, "Épluchures"},
     {Dechet::Type::GOBELET, "Gobelet"},
     {Dechet::Type::MARC_CAFE, "Marc de café"},
