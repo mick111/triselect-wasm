@@ -3,6 +3,11 @@
         "chrono": "cpp",
         "optional": "cpp",
         "format": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "bitset": "cpp",
+        "cstdlib": "cpp",
+        "mutex": "cpp",
+        "shared_mutex": "cpp",
+        "locale": "cpp"
     }
 }

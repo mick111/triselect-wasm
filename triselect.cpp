@@ -28,24 +28,24 @@ Triselect::Triselect(QWidget *parent)
     }
 
     srand(time(NULL));
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::ALIMENTAIRE, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::BOCAL, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::BOUTEILLE_VERRE, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::CANETTE, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::COUVERTS_BOIS, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::COUVERTS_PLASTIQUE, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::DOSETTE, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::EPLUCHURES, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::GOBELET, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::MARC_CAFE, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::MASQUE, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::MOUCHOIR, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::POSTIT, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::RESTES_REPAS, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::SACHET_PLASTIQUE, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::SACHET_THE, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::STYLO, *this);
-    dechets.emplace(std::next(dechets.begin(), arc4random_uniform(1+dechets.size())), Dechet::Type::YAOURT, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::ALIMENTAIRE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::BOCAL, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::BOUTEILLE_VERRE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::CANETTE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::COUVERTS_BOIS, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::COUVERTS_PLASTIQUE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::DOSETTE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::EPLUCHURES, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::GOBELET, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::MARC_CAFE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::MASQUE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::MOUCHOIR, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::POSTIT, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::RESTES_REPAS, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::SACHET_PLASTIQUE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::SACHET_THE, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::STYLO, *this);
+    dechets.emplace(std::next(dechets.begin(), rand() % (1+dechets.size())), Dechet::Type::YAOURT, *this);
 
     for (Dechet &dechet : dechets)
     {
@@ -114,18 +114,25 @@ void Triselect::dechet_jete(Dechet &dechet, QPointF pos)
     }
     auto &okko = dechet.est_valide() ? ok : ko;
     auto size = okko.sceneBoundingRect().size();
+    if (dechet.poubelle_choisie)
+    {
+        pos = dechet.poubelle_choisie->imageSceneBoundingRect().center();
+    }
     pos -= QPointF(size.width() / 2, size.height() / 2);
     okko.setPos(pos);
-    okko.start();
+    okko.dechet = nullptr;
     // Trouve le premier dechet masqué, et affiche
     for (Dechet &d : dechets)
     {
         if (d.poubelle_choisie == nullptr)
         {
+            d.setEnabled(false);
+            okko.dechet = &d;
             d.show();
             break;
         }
     }
+    okko.start();
 }
 
 void Triselect::setJoueur(const QString &joueur)
