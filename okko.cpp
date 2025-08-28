@@ -12,20 +12,22 @@ Okko::Okko(QObject *parent, bool isOk)
     anim.setEasingCurve(QEasingCurve::OutCurve);
     this->setTransformationMode(Qt::TransformationMode::SmoothTransformation);
     this->setScale(0.3);
+    this->setOpacity(0);
     connect(&anim, &QPropertyAnimation::finished, this, &Okko::onAnimFinished);
 }
 
 void Okko::start()
 {
-    qDebug()<< "start" << isOk;
+    qDebug() << "start" << isOk;
     anim.start();
 }
 
 void Okko::onAnimFinished()
 {
-    qDebug()<< "finished" << isOk;
+    qDebug() << "finished" << isOk;
     this->setOpacity(0);
-    if (this->dechet) {
+    if (this->dechet)
+    {
         this->dechet->setEnabled(true);
     }
     this->dechet = nullptr;
