@@ -245,11 +245,11 @@ body {
     <h1 class="home-title">Tri Select</h1>
     <p class="home-subtitle">Faites glisser chaque déchet vers la bonne poubelle et mesurez-vous au classement interne.</p>
     <div class="wf-rule">
-      <strong>Comment jouer :</strong> Un déchet apparaît — faites-le glisser vers la bonne poubelle avant la fin du temps imparti. Vous disposez de <strong>5 chances</strong>. La rapidité est récompensée.
+      <strong>Comment jouer :</strong> Un déchet apparaît — faites-le glisser vers la bonne poubelle avant la fin du temps imparti. Vous disposez de <strong>4 chances</strong>. La rapidité est récompensée.
     </div>
     <div class="wf-field">
       <label class="wf-label" for="player-name">Votre nom</label>
-      <input class="wf-input" type="text" id="player-name" placeholder="Alice Wormser" maxlength="30" />
+      <input class="wf-input" type="text" id="player-name" placeholder="Prénom et initiale. Exemple : Alice W." maxlength="30" />
     </div>
     <button class="wf-btn wf-btn-primary" onclick="startGame()">Commencer la partie</button>
     <button class="wf-btn wf-btn-ghost" id="btn-lb">Consulter le classement</button>
@@ -295,6 +295,12 @@ body {
         <svg class="bin-body" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M8 4h64l-6 88a4 4 0 01-4 4H18a4 4 0 01-4-4L8 4z" fill="#E8C000" stroke="#7A6500" stroke-width="1.5"/>
           <path d="M8 4h64" stroke="#7A6500" stroke-width="1.5"/>
+          <clipPath id="clip-jaune"><path d="M8 4h64l-6 88a4 4 0 01-4 4H18a4 4 0 01-4-4L8 4z"/></clipPath>
+          <g clip-path="url(#clip-jaune)" stroke="#7A6500" stroke-width="1" stroke-opacity=".25">
+            <line x1="20" y1="4" x2="18" y2="96"/><line x1="28" y1="4" x2="26" y2="96"/>
+            <line x1="36" y1="4" x2="34" y2="96"/><line x1="44" y1="4" x2="42" y2="96"/>
+            <line x1="52" y1="4" x2="50" y2="96"/><line x1="60" y1="4" x2="58" y2="96"/>
+          </g>
         </svg>
       </div>
       <div class="bin-label-text">Recyclables</div>
@@ -310,6 +316,12 @@ body {
         <svg class="bin-body" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M8 4h64l-6 88a4 4 0 01-4 4H18a4 4 0 01-4-4L8 4z" fill="#1D5B3F" stroke="#0F4023" stroke-width="1.5"/>
           <path d="M8 4h64" stroke="#0F4023" stroke-width="1.5"/>
+          <clipPath id="clip-verre"><path d="M8 4h64l-6 88a4 4 0 01-4 4H18a4 4 0 01-4-4L8 4z"/></clipPath>
+          <g clip-path="url(#clip-verre)" stroke="#fff" stroke-width="1" stroke-opacity=".18">
+            <line x1="20" y1="4" x2="18" y2="96"/><line x1="28" y1="4" x2="26" y2="96"/>
+            <line x1="36" y1="4" x2="34" y2="96"/><line x1="44" y1="4" x2="42" y2="96"/>
+            <line x1="52" y1="4" x2="50" y2="96"/><line x1="60" y1="4" x2="58" y2="96"/>
+          </g>
         </svg>
       </div>
       <div class="bin-label-text">Verre</div>
@@ -325,6 +337,12 @@ body {
         <svg class="bin-body" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M8 4h64l-6 88a4 4 0 01-4 4H18a4 4 0 01-4-4L8 4z" fill="#7B5230" stroke="#3A2410" stroke-width="1.5"/>
           <path d="M8 4h64" stroke="#3A2410" stroke-width="1.5"/>
+          <clipPath id="clip-brun"><path d="M8 4h64l-6 88a4 4 0 01-4 4H18a4 4 0 01-4-4L8 4z"/></clipPath>
+          <g clip-path="url(#clip-brun)" stroke="#fff" stroke-width="1" stroke-opacity=".18">
+            <line x1="20" y1="4" x2="18" y2="96"/><line x1="28" y1="4" x2="26" y2="96"/>
+            <line x1="36" y1="4" x2="34" y2="96"/><line x1="44" y1="4" x2="42" y2="96"/>
+            <line x1="52" y1="4" x2="50" y2="96"/><line x1="60" y1="4" x2="58" y2="96"/>
+          </g>
         </svg>
       </div>
       <div class="bin-label-text">Organiques</div>
@@ -340,6 +358,12 @@ body {
         <svg class="bin-body" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M8 4h64l-6 88a4 4 0 01-4 4H18a4 4 0 01-4-4L8 4z" fill="#4A4A4A" stroke="#1A1A1A" stroke-width="1.5"/>
           <path d="M8 4h64" stroke="#1A1A1A" stroke-width="1.5"/>
+          <clipPath id="clip-gris"><path d="M8 4h64l-6 88a4 4 0 01-4 4H18a4 4 0 01-4-4L8 4z"/></clipPath>
+          <g clip-path="url(#clip-gris)" stroke="#fff" stroke-width="1" stroke-opacity=".15">
+            <line x1="20" y1="4" x2="18" y2="96"/><line x1="28" y1="4" x2="26" y2="96"/>
+            <line x1="36" y1="4" x2="34" y2="96"/><line x1="44" y1="4" x2="42" y2="96"/>
+            <line x1="52" y1="4" x2="50" y2="96"/><line x1="60" y1="4" x2="58" y2="96"/>
+          </g>
         </svg>
       </div>
       <div class="bin-label-text">Ordures</div>
@@ -438,7 +462,7 @@ function showHome() { showScreen('screen-home'); }
 // ── GAME INIT ──
 function startGame() {
   const name = document.getElementById('player-name').value.trim() || 'Participant';
-  state = { player: name, deck: shuffle(WASTES), idx: 0, score: 0, lives: 5, correct: 0, wrong: 0, timerVal: 15, timerInterval: null, locked: false };
+  state = { player: name, deck: shuffle(WASTES), idx: 0, score: 0, lives: 4, correct: 0, wrong: 0, timerVal: 15, timerInterval: null, locked: false };
   showScreen('screen-game');
   renderWaste();
 }
@@ -466,7 +490,7 @@ function renderWaste() {
 function renderLives() {
   const el = document.getElementById('lives-display');
   el.innerHTML = '';
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 4; i++) {
     const d = document.createElement('div');
     d.className = 'heart-dot' + (i >= state.lives ? ' lost' : '');
     el.appendChild(d);
