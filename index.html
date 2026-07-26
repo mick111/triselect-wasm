@@ -1398,10 +1398,9 @@
         // on utilise fetch sans mode no-cors pour pouvoir lire la réponse
         const res = await fetch(SHEET_URL + '?action=get');
         const data = await res.json();
-        if (data.ok && data.data && data.data.length) {
+        if (data.ok && data.data) {
           document.getElementById('lb-badge').className = 'lb-badge online';
           document.getElementById('lb-badge').textContent = 'En ligne';
-          document.getElementById('lb-source-label').textContent = 'Classement partagé — Google Sheets';
           renderLbRows(data.data); return;
         }
         throw new Error('Données vides');
@@ -1462,15 +1461,14 @@
       const rows = buildTeamLeaderboard(lb);
       if (!rows.length) { list.innerHTML = '<div class="lb-empty">Aucune partie jouée pour le moment.</div>'; return; }
       const rc = ['gold', 'silver', 'bronze'];
-      const rs = ['I', 'II', 'III'];
       list.innerHTML = rows.map((e, i) => {
         const participantsHtml = (e.participants && e.participants.length)
           ? e.participants.map(p =>
             '<div class="lb-participant-row">' +
             '<span class="lb-participant-name">' + escHtml(p.name) + '</span>' +
             '<div class="lb-participant-meta">' +
-            '<span class="lb-acc-badge">' + (p.acc || 0) + ' %</span>' +
             '<span class="lb-score">' + (p.score || 0) + '</span>' +
+            '<span class="lb-acc-badge">' + (p.acc || 0) + ' %</span>' +
             '</div>' +
             '</div>'
           ).join('')
@@ -1479,12 +1477,12 @@
         return '<div class="lb-team-block" data-open="false">' +
           '<div class="lb-team-head">' +
           '<div class="lb-team-left">' +
-          '<span class="lb-rank ' + (rc[i] || '') + '">' + (i < 3 ? rs[i] : i + 1) + '</span>' +
+          '<span class="lb-rank ' + (rc[i] || '') + '">' + (i + 1) + '</span>' +
           '<span class="lb-team-name">' + escHtml(e.team) + '</span>' +
           '</div>' +
           '<div class="lb-team-meta">' +
-          '<span class="lb-acc-badge">' + e.acc + ' %</span>' +
           '<span class="lb-score">' + e.score + '</span>' +
+          '<span class="lb-acc-badge">' + e.acc + ' %</span>' +
           '</div>' +
           '</div>' +
           '<div class="lb-team-details">' + participantsHtml + '</div>' +
