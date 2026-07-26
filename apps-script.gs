@@ -47,9 +47,7 @@ function doGet(e) {
         grouped[row.team].accTotal += row.acc;
         grouped[row.team].count += 1;
         grouped[row.team].date = grouped[row.team].date || row.date;
-        if (row.name && !grouped[row.team].participants.includes(row.name)) {
-          grouped[row.team].participants.push(row.name);
-        }
+        grouped[row.team].participants.push({ name: row.name, score: row.score, acc: row.acc });
       });
 
       const teamRows = Object.values(grouped)

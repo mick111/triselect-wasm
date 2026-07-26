@@ -1064,7 +1064,7 @@
   </div>
 
   <script>
-    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyxSGoCKO8R5h2W4QNjrxSjwPAz72bxI81uI5KFhsqMaIy81RpfTINWGVS4Us-dBMVdHg/exec';
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwf4XdVtI4defsOwEDejZ8GrtdHXUeNfpLby5GBwTkV_OHrxcqMsDG23GMNdlmGg1PVcA/exec';
     const DEFAULT_TEAMS = Array.from({ length: 8 }, (_, i) => `Equipe ${i + 1}`);
     let availableTeams = [];
 
@@ -1421,24 +1421,28 @@
       const grouped = {};
       (Array.isArray(lb) ? lb : []).forEach(entry => {
         const team = String(entry.team || entry.name || '').trim() || 'Sans équipe';
-        const count = Number(entry.count || 1);
-        const participants = Array.isArray(entry.participants) ? entry.participants.filter(Boolean) : [];
-        const fallbackParticipant = String(entry.name || '').trim();
-        if (fallbackParticipant && !participants.includes(fallbackParticipant)) {
-          participants.push(fallbackParticipant);
-        }
         if (!grouped[team]) {
           grouped[team] = { team, scoreTotal: 0, accTotal: 0, count: 0, date: entry.date || '', participants: [] };
         }
-        grouped[team].scoreTotal += Number(entry.score || 0) * count;
-        grouped[team].accTotal += Number(entry.acc || 0) * count;
-        grouped[team].count += count;
-        grouped[team].date = grouped[team].date || entry.date || '';
-        participants.forEach(participant => {
-          if (participant && !grouped[team].participants.includes(participant)) {
-            grouped[team].participants.push(participant);
+        if (Array.isArray(entry.participants) && entry.participants.length > 0) {
+          entry.participants.forEach(p => {
+            if (p.name) {
+              grouped[team].participants.push({ name: p.name, score: Number(p.score || 0), acc: Number(p.acc || 0) });
+              grouped[team].scoreTotal += Number(p.score || 0);
+              grouped[team].accTotal += Number(p.acc || 0);
+              grouped[team].count += 1;
+            }
+          });
+        } else {
+          const participant = String(entry.name || '').trim();
+          if (participant) {
+            grouped[team].participants.push({ name: participant, score: Number(entry.score || 0), acc: Number(entry.acc || 0) });
+            grouped[team].scoreTotal += Number(entry.score || 0);
+            grouped[team].accTotal += Number(entry.acc || 0);
+            grouped[team].count += 1;
           }
-        });
+        }
+        grouped[team].date = grouped[team].date || entry.date || '';
       });
 
       return Object.values(grouped)
@@ -1463,10 +1467,10 @@
         const participantsHtml = (e.participants && e.participants.length)
           ? e.participants.map(p =>
             '<div class="lb-participant-row">' +
-            '<span class="lb-participant-name">' + escHtml(p) + '</span>' +
+            '<span class="lb-participant-name">' + escHtml(p.name) + '</span>' +
             '<div class="lb-participant-meta">' +
-            '<span class="lb-acc-badge">' + (e.acc || 0) + ' %</span>' +
-            '<span class="lb-score">' + e.score + '</span>' +
+            '<span class="lb-acc-badge">' + (p.acc || 0) + ' %</span>' +
+            '<span class="lb-score">' + (p.score || 0) + '</span>' +
             '</div>' +
             '</div>'
           ).join('')
