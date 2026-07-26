@@ -761,9 +761,8 @@
         temps imparti. Vous disposez de <strong>4 chances</strong>. La rapidité est récompensée.
       </div>
       <div class="wf-field">
-        <label class="wf-label" for="player-name">Votre nom</label>
-        <input class="wf-input" type="text" id="player-name" placeholder="Prénom et initiale. Exemple : Alice W."
-          maxlength="30" />
+        <label class="wf-label" for="player-name">Vos initiales</label>
+        <input class="wf-input" type="text" id="player-name" placeholder="3 caractères max" maxlength="3" />
       </div>
       <div class="wf-field">
         <label class="wf-label" for="team-select">Votre équipe</label>
@@ -1062,8 +1061,10 @@
 
     // ── GAME INIT ──
     function startGame() {
-      const name = document.getElementById('player-name').value.trim() || 'Participant';
+      const input = document.getElementById('player-name');
+      const name = (input.value.trim() || 'Participant').slice(0, 3);
       const team = getSelectedTeam();
+      input.value = name;
       state = { player: name, team, deck: shuffle(WASTES), idx: 0, score: 0, lives: 4, correct: 0, wrong: 0, timerVal: 15, timerInterval: null, locked: false };
       showScreen('screen-game');
       renderWaste();
@@ -1336,7 +1337,11 @@
 
     // ── BOOT ──
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('player-name').addEventListener('keydown', e => { if (e.key === 'Enter') startGame(); });
+      const playerNameInput = document.getElementById('player-name');
+      playerNameInput.addEventListener('input', () => {
+        playerNameInput.value = playerNameInput.value.slice(0, 3);
+      });
+      playerNameInput.addEventListener('keydown', e => { if (e.key === 'Enter') startGame(); });
       document.getElementById('btn-lb').addEventListener('click', () => showLeaderboard());
       document.getElementById('btn-lb-go').addEventListener('click', () => showLeaderboard());
       loadTeams();
