@@ -658,6 +658,47 @@
       border-top: 1px solid var(--border-subtle);
     }
 
+    .lb-team-block {
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 12px;
+      background: var(--wf-white);
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .lb-team-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .lb-team-name {
+      font-weight: 700;
+      color: var(--text-strong);
+      font-size: .92rem;
+    }
+
+    .lb-team-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .lb-team-participant {
+      font-size: .77rem;
+      color: var(--text-muted);
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--wf-grey-200);
+      margin: 3px 0;
+      display: inline-block;
+    }
+
     .lb-rank {
       font-family: 'DM Serif Display', serif;
       font-size: 1rem;
@@ -1322,14 +1363,18 @@
       const grouped = {};
       (Array.isArray(lb) ? lb : []).forEach(entry => {
         const team = String(entry.team || entry.name || '').trim() || 'Sans équipe';
+        const participant = String(entry.name || '').trim();
         const count = Number(entry.count || 1);
         if (!grouped[team]) {
-          grouped[team] = { team, scoreTotal: 0, accTotal: 0, count: 0, date: entry.date || '' };
+          grouped[team] = { team, scoreTotal: 0, accTotal: 0, count: 0, date: entry.date || '', participants: [] };
         }
         grouped[team].scoreTotal += Number(entry.score || 0) * count;
         grouped[team].accTotal += Number(entry.acc || 0) * count;
         grouped[team].count += count;
         grouped[team].date = grouped[team].date || entry.date || '';
+        if (participant && !grouped[team].participants.includes(participant)) {
+          grouped[team].participants.push(participant);
+        }
       });
 
       return Object.values(grouped)
@@ -1338,7 +1383,8 @@
           score: Math.round(item.scoreTotal / item.count),
           acc: Math.round(item.accTotal / item.count),
           count: item.count,
-          date: item.date
+          date: item.date,
+          participants: item.participants
         }))
         .sort((a, b) => b.score - a.score || b.acc - a.acc);
     }
@@ -1350,12 +1396,18 @@
       const rc = ['gold', 'silver', 'bronze'];
       const rs = ['I', 'II', 'III'];
       list.innerHTML = rows.map((e, i) =>
-        '<div class="lb-row">' +
+        '<div class="lb-team-block">' +
+        '<div class="lb-team-head">' +
+        '<span class="lb-team-name">' + escHtml(e.team) + '</span>' +
+        '<div class="lb-team-meta">' +
         '<span class="lb-rank ' + (rc[i] || '') + '">' + (i < 3 ? rs[i] : i + 1) + '</span>' +
-        '<span class="lb-name">' + escHtml(e.team) + '</span>' +
         '<span class="lb-acc">' + e.acc + ' %</span>' +
         '<span class="lb-score">' + e.score + '</span>' +
-        (e.count ? '<span class="lb-date">' + e.count + ' part.</span>' : '') +
+        '</div>' +
+        '</div>' +
+        '<div>' +
+        (e.participants.length ? e.participants.map(p => '<span class="lb-team-participant">' + escHtml(p) + '</span>').join(' ') : '<span class="lb-team-participant">Aucun participant</span>') +
+        '</div>' +
         '</div>'
       ).join('');
     }
