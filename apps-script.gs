@@ -41,12 +41,15 @@ function doGet(e) {
       const grouped = {};
       rows.forEach(row => {
         if (!grouped[row.team]) {
-          grouped[row.team] = { team: row.team, scoreTotal: 0, accTotal: 0, count: 0, date: row.date };
+          grouped[row.team] = { team: row.team, scoreTotal: 0, accTotal: 0, count: 0, date: row.date, participants: [] };
         }
         grouped[row.team].scoreTotal += row.score;
         grouped[row.team].accTotal += row.acc;
         grouped[row.team].count += 1;
         grouped[row.team].date = grouped[row.team].date || row.date;
+        if (row.name && !grouped[row.team].participants.includes(row.name)) {
+          grouped[row.team].participants.push(row.name);
+        }
       });
 
       const teamRows = Object.values(grouped)
@@ -55,7 +58,8 @@ function doGet(e) {
           score: Math.round(item.scoreTotal / item.count),
           acc: Math.round(item.accTotal / item.count),
           count: item.count,
-          date: item.date
+          date: item.date,
+          participants: item.participants
         }))
         .sort((a, b) => b.score - a.score || b.acc - a.acc)
         .slice(0, 50);
@@ -92,11 +96,11 @@ function getOrCreateSheet(spreadsheet, name) {
 function getTeamsFromSheet(sheet) {
   const values = sheet.getDataRange().getDisplayValues();
   const teams = [];
-  for (const row of values) {
-    const team = String(row[0] || '').trim();
-    if (team) {
-      teams.push(team);
-    }
+  for (let i = 0; i < values.length; i++) {
+    const team = String(values[i][0] || '').trim();
+    if (!team) continue;
+    if (i === 0 && /équipe/i.test(team)) continue;
+    teams.push(team);
   }
   return teams;
 }

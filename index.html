@@ -1006,7 +1006,7 @@
   </div>
 
   <script>
-    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwCwePg9N2G5573uTCPRYrlw9jrCWCV5woLXcsQJFhoIiyn8uVq48mIn7GxEIVICdWpLQ/exec';
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyxSGoCKO8R5h2W4QNjrxSjwPAz72bxI81uI5KFhsqMaIy81RpfTINWGVS4Us-dBMVdHg/exec';
     const DEFAULT_TEAMS = Array.from({ length: 8 }, (_, i) => `Equipe ${i + 1}`);
     let availableTeams = [];
 
@@ -1363,8 +1363,12 @@
       const grouped = {};
       (Array.isArray(lb) ? lb : []).forEach(entry => {
         const team = String(entry.team || entry.name || '').trim() || 'Sans équipe';
-        const participant = String(entry.name || '').trim();
         const count = Number(entry.count || 1);
+        const participants = Array.isArray(entry.participants) ? entry.participants.filter(Boolean) : [];
+        const fallbackParticipant = String(entry.name || '').trim();
+        if (fallbackParticipant && !participants.includes(fallbackParticipant)) {
+          participants.push(fallbackParticipant);
+        }
         if (!grouped[team]) {
           grouped[team] = { team, scoreTotal: 0, accTotal: 0, count: 0, date: entry.date || '', participants: [] };
         }
@@ -1372,9 +1376,11 @@
         grouped[team].accTotal += Number(entry.acc || 0) * count;
         grouped[team].count += count;
         grouped[team].date = grouped[team].date || entry.date || '';
-        if (participant && !grouped[team].participants.includes(participant)) {
-          grouped[team].participants.push(participant);
-        }
+        participants.forEach(participant => {
+          if (participant && !grouped[team].participants.includes(participant)) {
+            grouped[team].participants.push(participant);
+          }
+        });
       });
 
       return Object.values(grouped)
