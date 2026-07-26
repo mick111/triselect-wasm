@@ -661,10 +661,12 @@
     .lb-team-block {
       border: 1px solid var(--border-subtle);
       border-radius: 12px;
-      padding: 12px;
+      padding: 0;
       background: var(--wf-white);
       margin-bottom: 10px;
       box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      cursor: pointer;
     }
 
     .lb-team-head {
@@ -672,13 +674,25 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      margin-bottom: 8px;
+      padding: 12px 14px;
+      min-height: 54px;
+    }
+
+    .lb-team-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
     }
 
     .lb-team-name {
       font-weight: 700;
       color: var(--text-strong);
       font-size: .92rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .lb-team-meta {
@@ -687,16 +701,60 @@
       gap: 8px;
       flex-wrap: wrap;
       justify-content: flex-end;
+      min-width: 140px;
     }
 
-    .lb-team-participant {
-      font-size: .77rem;
+    .lb-acc-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      height: 24px;
+      font-size: .72rem;
       color: var(--text-muted);
-      padding: 4px 8px;
-      border-radius: 999px;
       background: var(--wf-grey-200);
-      margin: 3px 0;
-      display: inline-block;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .lb-team-details {
+      display: none;
+      border-top: 1px solid var(--border-subtle);
+      background: var(--surface-canvas);
+      padding: 10px 14px 12px;
+    }
+
+    .lb-team-block.open .lb-team-details {
+      display: block;
+    }
+
+    .lb-participant-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: .8rem;
+    }
+
+    .lb-participant-row:last-child {
+      border-bottom: none;
+    }
+
+    .lb-participant-name {
+      color: var(--text-strong);
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .lb-participant-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     .lb-rank {
@@ -1401,21 +1459,41 @@
       if (!rows.length) { list.innerHTML = '<div class="lb-empty">Aucune partie jouée pour le moment.</div>'; return; }
       const rc = ['gold', 'silver', 'bronze'];
       const rs = ['I', 'II', 'III'];
-      list.innerHTML = rows.map((e, i) =>
-        '<div class="lb-team-block">' +
-        '<div class="lb-team-head">' +
-        '<span class="lb-team-name">' + escHtml(e.team) + '</span>' +
-        '<div class="lb-team-meta">' +
-        '<span class="lb-rank ' + (rc[i] || '') + '">' + (i < 3 ? rs[i] : i + 1) + '</span>' +
-        '<span class="lb-acc">' + e.acc + ' %</span>' +
-        '<span class="lb-score">' + e.score + '</span>' +
-        '</div>' +
-        '</div>' +
-        '<div>' +
-        (e.participants.length ? e.participants.map(p => '<span class="lb-team-participant">' + escHtml(p) + '</span>').join(' ') : '<span class="lb-team-participant">Aucun participant</span>') +
-        '</div>' +
-        '</div>'
-      ).join('');
+      list.innerHTML = rows.map((e, i) => {
+        const participantsHtml = (e.participants && e.participants.length)
+          ? e.participants.map(p =>
+            '<div class="lb-participant-row">' +
+            '<span class="lb-participant-name">' + escHtml(p) + '</span>' +
+            '<div class="lb-participant-meta">' +
+            '<span class="lb-acc-badge">' + (e.acc || 0) + ' %</span>' +
+            '<span class="lb-score">' + e.score + '</span>' +
+            '</div>' +
+            '</div>'
+          ).join('')
+          : '<div class="lb-participant-row"><span class="lb-participant-name">Aucun participant</span></div>';
+
+        return '<div class="lb-team-block" data-open="false">' +
+          '<div class="lb-team-head">' +
+          '<div class="lb-team-left">' +
+          '<span class="lb-rank ' + (rc[i] || '') + '">' + (i < 3 ? rs[i] : i + 1) + '</span>' +
+          '<span class="lb-team-name">' + escHtml(e.team) + '</span>' +
+          '</div>' +
+          '<div class="lb-team-meta">' +
+          '<span class="lb-acc-badge">' + e.acc + ' %</span>' +
+          '<span class="lb-score">' + e.score + '</span>' +
+          '</div>' +
+          '</div>' +
+          '<div class="lb-team-details">' + participantsHtml + '</div>' +
+          '</div>';
+      }).join('');
+
+      list.querySelectorAll('.lb-team-block').forEach(block => {
+        block.addEventListener('click', () => {
+          const open = block.getAttribute('data-open') === 'true';
+          block.setAttribute('data-open', String(!open));
+          block.classList.toggle('open', !open);
+        });
+      });
     }
 
     // ── BOOT ──
