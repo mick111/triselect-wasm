@@ -1500,7 +1500,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       const playerNameInput = document.getElementById('player-name');
       playerNameInput.addEventListener('input', () => {
-        playerNameInput.value = playerNameInput.value.slice(0, 3);
+        playerNameInput.value = playerNameInput.value.slice(0, 3).toUpperCase();
       });
       playerNameInput.addEventListener('keydown', e => { if (e.key === 'Enter') startGame(); });
       document.getElementById('btn-lb').addEventListener('click', () => showLeaderboard());
