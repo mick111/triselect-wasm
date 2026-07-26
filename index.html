@@ -1318,19 +1318,44 @@
       }
     }
 
+    function buildTeamLeaderboard(lb) {
+      const grouped = {};
+      (Array.isArray(lb) ? lb : []).forEach(entry => {
+        const team = String(entry.team || entry.name || '').trim() || 'Sans équipe';
+        const count = Number(entry.count || 1);
+        if (!grouped[team]) {
+          grouped[team] = { team, scoreTotal: 0, accTotal: 0, count: 0, date: entry.date || '' };
+        }
+        grouped[team].scoreTotal += Number(entry.score || 0) * count;
+        grouped[team].accTotal += Number(entry.acc || 0) * count;
+        grouped[team].count += count;
+        grouped[team].date = grouped[team].date || entry.date || '';
+      });
+
+      return Object.values(grouped)
+        .map(item => ({
+          team: item.team,
+          score: Math.round(item.scoreTotal / item.count),
+          acc: Math.round(item.accTotal / item.count),
+          count: item.count,
+          date: item.date
+        }))
+        .sort((a, b) => b.score - a.score || b.acc - a.acc);
+    }
+
     function renderLbRows(lb) {
       const list = document.getElementById('lb-list');
-      const me = state.player || '';
-      if (!lb.length) { list.innerHTML = '<div class="lb-empty">Aucune partie jouée pour le moment.</div>'; return; }
+      const rows = buildTeamLeaderboard(lb);
+      if (!rows.length) { list.innerHTML = '<div class="lb-empty">Aucune partie jouée pour le moment.</div>'; return; }
       const rc = ['gold', 'silver', 'bronze'];
       const rs = ['I', 'II', 'III'];
-      list.innerHTML = lb.map((e, i) =>
-        '<div class="lb-row ' + (e.name === me ? 'me' : '') + '">' +
+      list.innerHTML = rows.map((e, i) =>
+        '<div class="lb-row">' +
         '<span class="lb-rank ' + (rc[i] || '') + '">' + (i < 3 ? rs[i] : i + 1) + '</span>' +
-        '<span class="lb-name">' + escHtml(e.name) + (e.team ? ' <span style="color:var(--text-muted);font-weight:500">· ' + escHtml(e.team) + '</span>' : '') + '</span>' +
+        '<span class="lb-name">' + escHtml(e.team) + '</span>' +
         '<span class="lb-acc">' + e.acc + ' %</span>' +
         '<span class="lb-score">' + e.score + '</span>' +
-        (e.date ? '<span class="lb-date">' + e.date + '</span>' : '') +
+        (e.count ? '<span class="lb-date">' + e.count + ' part.</span>' : '') +
         '</div>'
       ).join('');
     }

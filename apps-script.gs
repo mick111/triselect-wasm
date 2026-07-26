@@ -28,18 +28,39 @@ function doGet(e) {
       }
 
       const rows = values.slice(1)
-        .filter(row => row[0] || row[1] || row[2])
+        .filter(row => row[0] || row[1] || row[2] || row[4])
         .map(row => ({
           name: row[0] || '',
           score: Number(row[1] || 0),
           acc: Number(row[2] || 0),
           date: row[3] || '',
-          team: row[4] || ''
+          team: String(row[4] || '').trim() || 'Sans équipe'
         }))
-        .sort((a, b) => b.score - a.score)
+        .filter(item => item.team);
+
+      const grouped = {};
+      rows.forEach(row => {
+        if (!grouped[row.team]) {
+          grouped[row.team] = { team: row.team, scoreTotal: 0, accTotal: 0, count: 0, date: row.date };
+        }
+        grouped[row.team].scoreTotal += row.score;
+        grouped[row.team].accTotal += row.acc;
+        grouped[row.team].count += 1;
+        grouped[row.team].date = grouped[row.team].date || row.date;
+      });
+
+      const teamRows = Object.values(grouped)
+        .map(item => ({
+          team: item.team,
+          score: Math.round(item.scoreTotal / item.count),
+          acc: Math.round(item.accTotal / item.count),
+          count: item.count,
+          date: item.date
+        }))
+        .sort((a, b) => b.score - a.score || b.acc - a.acc)
         .slice(0, 50);
 
-      return jsonResponse({ ok: true, data: rows });
+      return jsonResponse({ ok: true, data: teamRows });
     }
 
     return jsonResponse({ ok: false, error: 'Action inconnue' });
